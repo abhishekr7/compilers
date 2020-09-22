@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>First Flask App</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+</head>
+<script>
+function myFunction() {
+var text1= $('#text1').val();
+  $.ajax({
+              url: "/join",
+              type: "POST",
+              data: {text1:text1}
+          }).done(function(response) {
+            var html= "<br><br><br><p> <b> RESULT : <b><p>";
+            response =response.result;
+                 $.each(response,function(key,val){
+                 console.log(val);
+                    html+="<p>"+val+"<p>"
+                });
+                html +="<br>";
+                $(".show-data").append(html);
+            });
+};
+  </script>
+<body>
+
+  <nav class="navbar navbar-light bg-light">
+  <span class="navbar-brand mb-0 h1">Hindi POS Tagger</span>
+</nav>
+    <br />
+    <br />
+    <p>
+            <label for="text1">Enter sample text</label>
+            <textarea class="form-control" id="text1" rows="3"></textarea>
+            <br/><br/>
+            <button id="clicked" onclick="myFunction()" class="btn btn-primary">Submit</button>
+        </p>
+    <div class="show-data" >
+    </div>
+</body>
+</html>
