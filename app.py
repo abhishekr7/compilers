@@ -139,6 +139,7 @@ def innit():
     outputfile.close()
 
 def check_accuracy() :
+    outputResult = ""
     testfile = codecs.open("Dataset/new_test.txt", mode = "r", encoding = "utf-8")
     all_tags = []
     trainfile = codecs.open("Dataset/new_train.txt", mode = "r", encoding = "utf-8")
@@ -224,9 +225,10 @@ def check_accuracy() :
     tagprobfile.close()
 
     accuracy = (final_match_count / final_word_count) * 100.0
-    print("Total words in the test dataset : " + str(final_word_count))
-    print("Number of words correctly tagged : " + str(final_match_count))
-    print("Accuracy : " + str(accuracy))
+
+    outputResult += "Total words in the test dataset : " + str(final_word_count) + "<br/>"
+    outputResult += "Number of words correctly tagged : " + str(final_match_count) + "<br/>"
+    outputResult += "Accuracy : " + str(accuracy) + "<br/>"
 
     for tag in dict_actual_tag :
         true_positives = dict_true_positive[tag]
@@ -248,9 +250,12 @@ def check_accuracy() :
 
         #print(tag + " Precision " + str(precision) + " Recall " + str(recall) + " F-score " + str(fscore))
 
+    return outputResult
+
 @app.route('/')
 def home():
     return render_template('home.html')
+
 @app.route('/join', methods=['GET','POST'])
 def my_form_post():
     text1 = request.form['text1']
@@ -258,12 +263,28 @@ def my_form_post():
     #text2 = request.form['text2']
 
     innit()
-    check_accuracy()
+    #check_accuracy()
     combine = hmm_pos_tagger(text1)
     result = {
         "output": combine
     }
     result = {str(key): value for key, value in result.items()}
     return jsonify(result=result)
+
+@app.route('/results', methods=['GET','POST'])
+def my_results_post():
+    #text1 = request.form['text1']
+    #word = request.args.get('text1')
+    #text2 = request.form['text2']
+
+    innit()
+    combine = check_accuracy()
+    #combine = hmm_pos_tagger(text1)
+    result = {
+        "output": combine
+    }
+    result = {str(key): value for key, value in result.items()}
+    return jsonify(result=result)
+
 if __name__ == '__main__':
     app.run(debug=True)

@@ -6,8 +6,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
 </head>
+<style>
+
+.clicked{
+  padding-left: 30px
+}
+
+</style>
 <script>
-function myFunction() {
+function myFunction1() {
 var text1= $('#text1').val();
   $.ajax({
               url: "/join",
@@ -21,7 +28,24 @@ var text1= $('#text1').val();
                     html+="<p>"+val+"<p>"
                 });
                 html +="<br>";
-                $(".show-data").append(html);
+                $(".show-data").html(html);
+            });
+};
+
+function myFunction2() {
+//var text1= $('#text1').val();
+  $.ajax({
+              url: "/results",
+              type: "POST"
+          }).done(function(response) {
+            var html= "<br><br><br><p> <b> RESULT : <b><p>";
+            response =response.result;
+                 $.each(response,function(key,val){
+                 console.log(val);
+                    html+="<p>"+val+"<p>"
+                });
+                html +="<br>";
+                $(".show-data").html(html);
             });
 };
   </script>
@@ -32,13 +56,21 @@ var text1= $('#text1').val();
 </nav>
     <br />
     <br />
-    <p>
             <label for="text1">Enter sample text</label>
             <textarea class="form-control" id="text1" rows="3"></textarea>
             <br/><br/>
-            <button id="clicked" onclick="myFunction()" class="btn btn-primary">Submit</button>
-        </p>
-    <div class="show-data" >
+            <div class="text-center">
+              <button id="clicked1" onclick="myFunction1()" class="btn btn-primary btn-responsive btn-block">Submit</button>
+            </div>
+            <br/>
+
+            <div class="text-center">
+              <button id="clicked2" onclick="myFunction2()" class="btn btn-primary btn-block">Results</button>
+            </div>
+
+    <div class="text-center">
+      <div class="show-data" >
+      </div>
     </div>
 </body>
 </html>
