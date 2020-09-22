@@ -1,6 +1,8 @@
 from flask import Flask, request, render_template,jsonify
 import codecs
 from collections import defaultdict
+import unittest
+
 app = Flask(__name__)
 def do_something(text1,text2):
    text1 = text1.upper()
@@ -286,5 +288,13 @@ def my_results_post():
     result = {str(key): value for key, value in result.items()}
     return jsonify(result=result)
 
+"""
+Test Suite
+"""
+class MyTest(unittest.TestCase):
+    def test1(self):
+        self.assertEqual(hmm_pos_tagger('वह अच्छा गाता है |'), 'वह : PRP<br/>अच्छा : JJ<br/>गाता : VM<br/>है : VAUX<br/>| : SYM<br/>')
+
 if __name__ == '__main__':
+    unittest.main()
     app.run(debug=True)
