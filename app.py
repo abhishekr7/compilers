@@ -295,6 +295,12 @@ class MyTest(unittest.TestCase):
     def test1(self):
         self.assertEqual(hmm_pos_tagger('वह अच्छा गाता है |'), 'वह : PRP<br/>अच्छा : JJ<br/>गाता : VM<br/>है : VAUX<br/>| : SYM<br/>')
 
+    def test2(self):
+        self.assertEqual(hmm_pos_tagger('मैं एक लड़का हूँ'), 'मैं : PRP<br/>एक : QC<br/>लड़का : VAUX<br/>हूँ : SYM<br/>')
+
+    def test3(self):
+        self.assertEqual(hmm_pos_tagger('मैं अपने दोस्तों के साथ खेलना चाहता हूं'), 'मैं : PRP<br/>अपने : PRP<br/>दोस्तों : NN<br/>के : PSP<br/>साथ : NST<br/>खेलना : VM<br/>चाहता : VAUX<br/>हूं : SYM<br/>')
+
 if __name__ == '__main__':
     unittest.main()
     app.run(debug=True)
